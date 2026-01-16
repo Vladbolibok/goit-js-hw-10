@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promise generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/modern-normalize@2.0.0/modern-normalize.min.css"
+    />
+
+    <script type="module" crossorigin src="/vanilla-app-template/2-snackbar.js"></script>
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/vendor-fyLdAcWF.js">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/vendor-1Mt4gqrI.css">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/2-snackbar-Bs6WALZ-.css">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/styles-BW5n-VeP.css">
+  </head>
+  <body>
+    <div class="btn-container">
+      <p>
+        <a class="btn" href="index.html">Go back</a>
+      </p>
+    </div>
+
+    <div class="thumb-block">
+      <form class="form">
+        <label class="label-delay">
+          Delay (ms) <br />
+          <input type="number" name="delay" required />
+        </label>
+        <fieldset class="frame">
+          <legend class="legend">State</legend>
+          <label class="label-radio">
+            <input type="radio" name="state" value="fulfilled" required />
+            <span>Fulfilled</span>
+          </label>
+          <label class="label-radio">
+            <input type="radio" name="state" value="rejected" required />
+            <span>Rejected</span>
+          </label>
+        </fieldset>
+        <button class="btn-start" type="submit">Create notification</button>
+      </form>
+    </div>
+
+  </body>
+</html>
