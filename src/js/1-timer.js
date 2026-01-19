@@ -10,13 +10,17 @@ const hour = document.querySelector('span[data-hours]');
 const minute = document.querySelector('span[data-minutes]');
 const second = document.querySelector('span[data-seconds]');
 
+let selectedDate = null;
+btnStart.disabled = true;
+
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (options.defaultDate >= selectedDates[0]) {
+    const userSelectedDate = selectedDates[0];
+    if (userSelectedDate <= new Date()) {
       btnStart.disabled = true;
 
       iziToast.error({
@@ -24,6 +28,7 @@ const options = {
         message: 'Please choose a date in the future',
       });
     } else {
+      selectedDate = userSelectedDate;
       btnStart.disabled = false;
 
       iziToast.success({
@@ -37,7 +42,6 @@ const options = {
 flatpickr('#datetime-picker', options);
 
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
@@ -56,37 +60,33 @@ function convertMs(ms) {
 }
 
 const addLeadingZero = value => value.toString().padStart(2, '0');
+function updateTimerInterface({ days, hours, minutes, seconds }) {
+  day.textContent = addLeadingZero(days);
+  hour.textContent = addLeadingZero(hours);
+  minute.textContent = addLeadingZero(minutes);
+  second.textContent = addLeadingZero(seconds);
+}
 
-btnStart.addEventListener('click', startTimer);
-
-function startTimer() {
+btnStart.addEventListener('click', () => {
   btnStart.disabled = true;
   input.disabled = true;
 
   const animatedDiv = document.querySelector('#animatedDiv');
   animatedDiv.classList.add('animated');
 
-  const timer = setInterval(() => {
-    const currentDate = new Date();
-    const targetDate = new Date(input.value);
-    const timeDiff = targetDate - currentDate;
+  const timerId = setInterval(() => {
+    const currentTime = new Date();
+    const timeDiff = selectedDate - currentTime; // Використання збереженої дати
 
-    const { days, hours, minutes, seconds } = convertMs(timeDiff);
-
-    day.textContent = addLeadingZero(days);
-    hour.textContent = addLeadingZero(hours);
-    minute.textContent = addLeadingZero(minutes);
-    second.textContent = addLeadingZero(seconds);
-
-    const isTimerFinished = [days, hours, minutes, seconds].every(
-      value => value === 0
-    );
-
-    if (isTimerFinished) {
-      clearInterval(timer);
+    if (timeDiff <= 0) {
+      clearInterval(timerId);
+      updateTimerInterface({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       input.disabled = false;
-
       animatedDiv.classList.remove('animated');
+      return;
     }
+
+    const timeValues = convertMs(timeDiff);
+    updateTimerInterface(timeValues);
   }, 1000);
-}
+});
